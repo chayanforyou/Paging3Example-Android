@@ -1,0 +1,68 @@
+plugins {
+    id 'com.android.application'
+}
+
+def props = new Properties()
+rootProject.file("local.properties").withReader { props.load(it) }
+//props.load(rootProject.file('local.properties').newDataInputStream())
+
+def api_key = props['api.key']
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "me.chayan.paging3"
+        minSdk 17
+        targetSdk 31
+        versionCode 1
+        versionName "1.0.0"
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "API_KEY", api_key)
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation "androidx.multidex:multidex:2.0.1"
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // Retrofit library dependency + GSON
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    // Gson support adapter for Retrofit
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    // Retrofit support adapter for RxJava
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+    // Optional - Okhttp logging library for debug purpose
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+
+    def paging_version = "3.0.1"
+    implementation "androidx.paging:paging-runtime:$paging_version"
+    // RxJava3 support for paging library
+    implementation "androidx.paging:paging-rxjava3:$paging_version"
+
+    // Image loading library support
+    implementation 'com.squareup.picasso:picasso:2.71828'
+}
